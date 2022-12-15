@@ -1,10 +1,15 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    [Header("General Setup Settings")]
     [SerializeField] private float _controlSpeed;
     [SerializeField] private float _xRange;
     [SerializeField] private float _yRange;
+    [SerializeField] GameObject[] guns;
+
     [SerializeField] private float _pitchFactor;
     [SerializeField] private float _controlPitchFactor;
     [SerializeField] private float _positionYawFactor;
@@ -17,6 +22,7 @@ public class PlayerControls : MonoBehaviour
     {
         ProcessTranslation();
         ProcessRotation();
+        ProcessFiring();
     }
 
     private void ProcessTranslation()
@@ -45,5 +51,26 @@ public class PlayerControls : MonoBehaviour
         float roll = transform.localRotation.z + xThrow * -_controlRollFactor;
 
         transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
+    }
+
+    private void ProcessFiring()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            SetGunsActive(true);
+        }
+        else
+        {
+            SetGunsActive(false);
+        }
+    }
+
+    private void SetGunsActive(bool isActive)
+    {
+        foreach(GameObject gun in guns)
+        {
+            var emissionModule = gun.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = isActive;
+        }
     }
 }
