@@ -1,10 +1,9 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
     [Header("General Setup Settings")]
+    [Tooltip("How fast ship moves UP and Down")]
     [SerializeField] private float _controlSpeed;
     [SerializeField] private float _xRange;
     [SerializeField] private float _yRange;
